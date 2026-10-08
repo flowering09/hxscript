@@ -180,8 +180,13 @@ class Globals {
 			 */
 			if (!site.scope.isResolvable(site.name))
 				continue;
-
-			var held:Dynamic = AbstractTools.underlying(try site.scope.resolve(site.name) catch (e:Dynamic) null);
+			var resolved:Dynamic = null;
+			try {
+				resolved = site.scope.resolve(site.name);
+			} catch (e:Dynamic) {
+				resolved = null;
+			}
+			var held:Dynamic = AbstractTools.underlying(resolved);
 
 			if (!put(site, held))
 				mismatch(at, poolName(site.kind), held);
